@@ -124,6 +124,16 @@
 
                     <x-input-error :messages="$errors->get('ukuran')" class="mt-2" />
                 </div>
+
+                <div class="mb-4">
+                    <x-input-label for="deksripsi" :value="__('Deskripsi Lokasi')" />
+                    <textarea name="deskripsi" id="deskripsi" class="block mt-1 w-full"></textarea>
+                    <x-input-error :messages="$errors->get('deksripsi')" class="mt-2" />
+                </div>
+
+
+
+               
             </form>
 
 
