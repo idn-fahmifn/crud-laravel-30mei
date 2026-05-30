@@ -15,4 +15,9 @@ class LocationController extends Controller
             'location' => $locations
         ]);
     }
+
+    public function store(Request $request)
+    {
+        return $request;
+    }
 }

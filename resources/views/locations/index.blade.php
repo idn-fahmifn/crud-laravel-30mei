@@ -97,7 +97,7 @@
                 Tambah Lokasi
             </h2>
 
-            <form action="" method="post">
+            <form action="{{ route('location.store') }}" method="post">
                 @csrf
                 <div class="mb-4">
                     <x-input-label for="namaLokasi" :value="__('Nama Lokasi')" />
@@ -135,14 +135,19 @@
 
                                 <span class="text-sm text-slate-600 dark:text-slate-300">Tersedia</span>
                         </label>
+                        <x-input-error :messages="$errors->get('availability')" class="mt-2" />
                     </div>
                 </div>
 
 
                 <div class="mb-4">
                     <x-input-label for="deksripsi" :value="__('Deskripsi Lokasi')" />
-                    <textarea name="deskripsi" id="deskripsi" class="block mt-1 w-full"></textarea>
+                    <textarea name="deskripsi" id="deskripsi" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
                     <x-input-error :messages="$errors->get('deksripsi')" class="mt-2" />
+                </div>
+
+                <div class="mb-4">
+                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">Tambah Lokasi</button>
                 </div>
 
 
