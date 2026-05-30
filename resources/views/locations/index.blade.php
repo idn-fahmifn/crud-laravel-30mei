@@ -54,7 +54,7 @@
 
                 <table class="w-full">
 
-                    <thead class="bg-slate-50 dark:bg-slate-800">
+                    <thead class="bg-slate-200 dark:bg-slate-800">
 
                         <tr class="text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-200">
 
