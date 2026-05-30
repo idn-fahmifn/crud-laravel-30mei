@@ -16,9 +16,7 @@
 
             </div>
 
-            <button
-                x-data=""
-                x-on:click.prevent="$dispatch('open-modal', 'create-location')"
+            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-location')"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">
 
                 + Tambah Lokasi
@@ -34,9 +32,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             {{-- ALERT --}}
-            <div
-                x-data="{ show: true }"
-                x-show="show"
+            <div x-data="{ show: true }" x-show="show"
                 class="mb-6 flex items-center justify-between bg-blue-100 border border-blue-300 text-blue-700 px-6 py-4 rounded-2xl">
 
                 <span class="font-semibold">
@@ -97,93 +93,40 @@
 
         <div class="p-8">
 
-            <h2 class="text-2xl font-black mb-6">
+            <h2 class="text-2xl dark:text-slate-200 font-black mb-6">
                 Tambah Lokasi
             </h2>
 
-            <form class="space-y-5">
-
-                <div>
-
-                    <x-input-label value="Nama Lokasi" />
-
-                    <x-text-input
-                        type="text"
-                        class="mt-2 block w-full rounded-2xl" />
-
+            <form action="" method="post">
+                @csrf
+                <div class="mb-4">
+                    <x-input-label for="namaLokasi" :value="__('Nama Lokasi')" />
+                    <x-text-input id="namaLokasi" class="block mt-1 w-full" type="text" name="namaLokasi"
+                        :value="old('namaLokasi')" required />
+                    <x-input-error :messages="$errors->get('namaLokasi')" class="mt-2" />
                 </div>
+                <div class="mb-4">
+                    <x-input-label for="ukuran" :value="__('Ukuran Lokasi')" />
 
-                <div>
+                    <div class="flex gap-4 mt-3">
+                        @foreach (['small', 'medium', 'large'] as $size)
+                            <label class="flex item-center gap-2">
+                                <input type="radio" name="ukuran" id="ukuran"
+                                    {{ old('ukuran') == $size ? 'checked' : '' }}
+                                    class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
 
-                    <x-input-label value="Ukuran" />
+                                <span class="capitalize text-slate-600">
+                                    {{ $size }}
+                                </span>
+                            </label>
+                        @endforeach
+                    </div>
 
-                    <select class="mt-2 block w-full rounded-2xl border-slate-300">
-
-                        <option>Small</option>
-                        <option>Medium</option>
-                        <option>Large</option>
-
-                    </select>
-
+                    <x-input-error :messages="$errors->get('ukuran')" class="mt-2" />
                 </div>
-
-                <div>
-
-                    <x-input-label value="Status" />
-
-                    <select class="mt-2 block w-full rounded-2xl border-slate-300">
-
-                        <option>Available</option>
-                        <option>Close</option>
-                        <option>Full</option>
-                        <option>Maintenance</option>
-
-                    </select>
-
-                </div>
-
-                <div>
-
-                    <x-input-label value="Layout Image" />
-
-                    <x-text-input
-                        type="file"
-                        class="mt-2 block w-full rounded-2xl" />
-
-                </div>
-
-                <div>
-
-                    <x-input-label value="Deskripsi" />
-
-                    <textarea
-                        rows="4"
-                        class="mt-2 block w-full rounded-2xl border-slate-300"></textarea>
-
-                </div>
-
-                <div class="flex justify-end gap-3 pt-5">
-
-                    <button
-                        type="button"
-                        x-on:click="$dispatch('close')"
-                        class="px-6 py-3 rounded-2xl text-slate-500 hover:bg-slate-100">
-
-                        Batal
-
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-bold">
-
-                        Simpan
-
-                    </button>
-
-                </div>
-
             </form>
+
+
 
         </div>
 
