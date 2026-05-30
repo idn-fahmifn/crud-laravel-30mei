@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique();
+            $table->string('item_name');
+            $table->enum('category',['makanan', 'atk', 'elektronik', 'logistik', 'lainnya']);
+            $table->string('image');
+            $table->enum('status', ['good', 'broke', 'maintenance'])->default('good');
+            $table->text('desc');
+            $table->foreignId('room_id')->nullable()->constrained('rooms')->nullOnDelete()->cascadeOnUpdate();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
