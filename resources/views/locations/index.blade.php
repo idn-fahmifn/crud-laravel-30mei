@@ -50,11 +50,11 @@
             </div>
 
             {{-- TABLE --}}
-            <div class="bg-white dark:bg-slate-600 rounded-md overflow-hidden">
+            <div class="bg-white dark:bg-slate-700 rounded-md overflow-hidden">
 
                 <table class="w-full">
 
-                    <thead class="bg-slate-50 dark:bg-slate-600">
+                    <thead class="bg-slate-50 dark:bg-slate-800">
 
                         <tr class="text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-200">
 
@@ -69,7 +69,7 @@
 
                     <tbody>
 
-                        <tr>
+                        <tr class="text-slate-600 dark:text-slate-300"">
 
                             <td class="px-8 py-6">Gedung Utama</td>
                             <td class="px-8 py-6 font-bold">large</td>
