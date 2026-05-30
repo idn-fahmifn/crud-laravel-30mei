@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use App\Models\Location;
 
@@ -16,8 +17,25 @@ class LocationController extends Controller
         ]);
     }
 
+
     public function store(Request $request)
     {
-        return $request;
+        $request->validate([
+            'namaLokasi' => ['required', 'string', 'min:5', 'max:30'],
+            'ukuran' => ['required', 'in:small,medium,large'],
+            'availability' => ['required', 'in:1,0'],
+            'deskripsi' => ['required']
+        ]);
+
+        // array untuk menyimpan data ke model item
+        $simpan = [
+            'uuid' => Str::uuid(),
+            'room_name' => $request->input('namaLokasi'),
+            'size' => $request->input('ukuran'),
+            'isAvailable' => $request->input('availability'),
+            'desc' => $request->input('dekripsi'),
+        ];
+
+        return $simpan;
     }
 }
