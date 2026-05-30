@@ -112,7 +112,7 @@
                         <div class="flex gap-4 mt-3">
                             @foreach (['small', 'medium', 'large'] as $size)
                                 <label class="flex item-center gap-2">
-                                    <input type="radio" name="ukuran" id="ukuran"
+                                    <input type="radio" name="ukuran" value="{{ $size }}" id="ukuran"
                                         {{ old('ukuran') == $size ? 'checked' : '' }}
                                         class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
 
@@ -129,7 +129,8 @@
                     <div class="mb-4">
                         <x-input-label for="availability" :value="__('Ruangan Tersedia')" />
                         <label for="availability" class="flex items-center gap-2 mt-3 cursor-pointer">
-                            <input type="checkbox" name="availability" id="availability"
+                            <input type="hidden" name="availability" value="0">
+                            <input type="checkbox" name="availability" id="availability" value="1"
                                 {{ old('availability', 1) ? 'checked' : '' }}
                                 class="w-4 h-4 rounded text-emerald-500 border-slate-300 focus:ring-emerald-500">
 
