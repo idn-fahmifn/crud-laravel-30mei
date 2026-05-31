@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\{LocationController, ProfileController};
+use App\Http\Controllers\{ItemController, LocationController, ProfileController};
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,6 +20,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/locations/detail/{param}', [LocationController::class, 'show'])->name('location.show');
     Route::put('/locations/update/{param}', [LocationController::class, 'update'])->name('location.update');
     Route::delete('/locations/delete/{param}', [LocationController::class, 'delete'])->name('location.delete');
+
+     // route khusus untuk items
+    Route::get('/items', [ItemController::class, 'index'])->name('item.index');
+    Route::post('/items', [ItemController::class, 'store'])->name('item.store');
+    Route::get('/items/detail/{param}', [ItemController::class, 'show'])->name('item.show');
+    Route::put('/items/update/{param}', [ItemController::class, 'update'])->name('item.update');
+    Route::delete('/items/delete/{param}', [ItemController::class, 'delete'])->name('item.delete');
 
     
 
