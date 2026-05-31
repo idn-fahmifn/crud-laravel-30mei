@@ -28,8 +28,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/items/update/{param}', [ItemController::class, 'update'])->name('item.update');
     Route::delete('/items/delete/{param}', [ItemController::class, 'delete'])->name('item.delete');
 
-    
-
 });
 
 Route::middleware('auth')->group(function () {
