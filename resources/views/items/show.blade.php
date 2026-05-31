@@ -133,12 +133,13 @@
                 Edit Barang
             </h2>
 
-            <form action="{{ route('item.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('item.update', $item->uuid) }}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method('put')
                 <div class="mb-4">
                     <x-input-label for="namaBarang" :value="__('Nama Barang')" />
                     <x-text-input id="namaBarang" class="block mt-1 w-full" type="text" name="namaBarang"
-                        :value="old('namaBarang')" required />
+                        :value="old('namaBarang', $item->item_name)" required />
                     <x-input-error :messages="$errors->get('namaBarang')" class="mt-2" />
                 </div>
                   <div class="mb-4">
@@ -146,7 +147,7 @@
                     <select name="namaLokasi" id="namaLokasi" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
                             <option value="" disabled>Pilih Lokasi</option>
                        @forelse ($locations as $location)
-                            <option value="{{$location->id}}" >{{$location->room_name}}</option>
+                            <option value="{{$location->id}}" {{ old('namaLokasi', $item->location_id) == $location->id ? 'selected' : '' }} >{{$location->room_name}}</option>
                        @empty
                             <option value="" disabled>Lokasi sudah full</option>
                         @endforelse
@@ -162,7 +163,7 @@
                             @foreach (['good', 'broke', 'maintenance'] as $status)
                                 <label class="flex item-center gap-2">
                                     <input type="radio" name="status" value="{{ $status }}" id="status"
-                                        {{ old('status') == $status ? 'checked' : '' }}
+                                        {{ old('status', $item->status) == $status ? 'checked' : '' }}
                                         class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
 
                                     <span class="capitalize text-slate-200">
@@ -182,7 +183,7 @@
                             @foreach (['makanan', 'elektronik', 'atk', 'logistik', 'lainnya'] as $category)
                                 <label class="flex item-center gap-2">
                                     <input type="radio" name="category" value="{{ $category }}" id="category"
-                                        {{ old('category') == $category ? 'checked' : '' }}
+                                        {{ old('category', $item->category) == $category ? 'checked' : '' }}
                                         class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
 
                                     <span class="capitalize text-slate-200">
@@ -201,7 +202,7 @@
                 <div class="mb-4">
                     <x-input-label for="gambarBarang" :value="__('Gambar Barang')" />
                     <x-text-input id="gambarBarang" class="block mt-1 w-full py-4 px-6 border" type="file" name="gambarBarang"
-                        :value="old('gambarBarang')" required />
+                        :value="old('gambarBarang')" />
                     <x-input-error :messages="$errors->get('gambarBarang')" class="mt-2" />
                 </div>
 
@@ -209,7 +210,7 @@
                 <div class="mb-4">
                     <x-input-label for="deksripsi" :value="__('Deskripsi barang')" />
                     <textarea name="deskripsi" id="deskripsi"
-                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
+                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{old('deskripsi', $item->desc)}}</textarea>
                     <x-input-error :messages="$errors->get('deksripsi')" class="mt-2" />
                 </div>
 
