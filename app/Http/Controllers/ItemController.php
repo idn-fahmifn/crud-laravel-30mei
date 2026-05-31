@@ -22,23 +22,25 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'namaLokasi' => ['required', 'string', 'min:5', 'max:30'],
-        //     'ukuran' => ['required', 'in:small,medium,large'],
-        //     'availability' => ['required', 'in:1,0'],
-        //     'deskripsi' => ['required'],
-        // ]);
+        $request->validate([
+            'namaBarang' => ['required', 'string', 'min:5', 'max:30'],
+            'namaLokasi' => ['required', 'exists:locations,id'],
+            'status' => ['required', 'in:good,broke,maintenance'],
+            'category' => ['required', 'in:makanan,elektronik,atk,logistik,lainnya'],
+            'gambarBarang' => ['required', 'file', 'mimes:png,jpg,jpeg,svg,webp'],
+            'deskripsi' => ['required'],
+        ]);
 
-        return $request;
 
         // array untuk menyimpan data ke model item
-        // $simpan = [
-        //     'uuid' => Str::uuid(),
-        //     'room_name' => $request->input('namaLokasi'),
-        //     'size' => $request->input('ukuran'),
-        //     'isAvailable' => $request->input('availability'),
-        //     'desc' => $request->input('deskripsi'),
-        // ];
+        $simpan = [
+            'uuid' => Str::uuid(),
+            'item_name' => $request->input('namaBarang'),
+            'location_id' => $request->input('namaLokasi'),
+            'category' => $request->input('category'),
+            'status' => $request->input('status'),
+            'desc' => $request->input('deskripsi'),
+        ];
 
         // Location::create($simpan);
 
