@@ -32,7 +32,6 @@ class ItemController extends Controller
             'deskripsi' => ['required'],
         ]);
 
-
         // array untuk menyimpan data ke model item
         $simpan = [
             'uuid' => Str::uuid(),
@@ -43,10 +42,10 @@ class ItemController extends Controller
             'desc' => $request->input('deskripsi'),
         ];
 
-        if($request->hasFile('gambarBarang')){
+        if ($request->hasFile('gambarBarang')) {
             $gambar = $request->file('gambarBarang');
             $path = 'public/images/items';
-            $nama = 'item_' . Carbon::now('asia/jakarta')->format('Ymdhis') . random_int(000,999) . '.' . $gambar->getClientOriginalExtension();
+            $nama = 'item_'.Carbon::now('asia/jakarta')->format('Ymdhis').random_int(000, 999).'.'.$gambar->getClientOriginalExtension();
             $simpan['image'] = $nama;
             $gambar->storeAs($path, $nama);
         }
@@ -59,8 +58,10 @@ class ItemController extends Controller
     public function show($param)
     {
         $items = Item::where('uuid', $param)->firstOrFail();
+        $locations = Location::where('isAvailable', true)->get();
         return view('items.show', [
             'item' => $items,
+            'location' => $locations
         ]);
     }
 
@@ -94,6 +95,7 @@ class ItemController extends Controller
     {
         $locations = Location::where('uuid', $param)->firstOrFail();
         $locations->delete();
+
         return redirect()->route('location.index')->with('success', 'Lokasi Berhasil dihapus');
     }
 }
