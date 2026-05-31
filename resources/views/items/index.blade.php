@@ -110,7 +110,7 @@
                 Tambah barang
             </h2>
 
-            <form action="{{ route('item.store') }}" method="post">
+            <form action="{{ route('item.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-4">
                     <x-input-label for="namaBarang" :value="__('Nama Barang')" />
@@ -193,10 +193,8 @@
                 <div class="mb-4">
                     <button type="submit"
                         class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">Tambah
-                        Lokasi</button>
+                        Barang</button>
                 </div>
-
-
 
 
             </form>

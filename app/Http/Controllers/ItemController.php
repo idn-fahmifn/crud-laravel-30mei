@@ -22,25 +22,27 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'namaLokasi' => ['required', 'string', 'min:5', 'max:30'],
-            'ukuran' => ['required', 'in:small,medium,large'],
-            'availability' => ['required', 'in:1,0'],
-            'deskripsi' => ['required'],
-        ]);
+        // $request->validate([
+        //     'namaLokasi' => ['required', 'string', 'min:5', 'max:30'],
+        //     'ukuran' => ['required', 'in:small,medium,large'],
+        //     'availability' => ['required', 'in:1,0'],
+        //     'deskripsi' => ['required'],
+        // ]);
+
+        return $request;
 
         // array untuk menyimpan data ke model item
-        $simpan = [
-            'uuid' => Str::uuid(),
-            'room_name' => $request->input('namaLokasi'),
-            'size' => $request->input('ukuran'),
-            'isAvailable' => $request->input('availability'),
-            'desc' => $request->input('deskripsi'),
-        ];
+        // $simpan = [
+        //     'uuid' => Str::uuid(),
+        //     'room_name' => $request->input('namaLokasi'),
+        //     'size' => $request->input('ukuran'),
+        //     'isAvailable' => $request->input('availability'),
+        //     'desc' => $request->input('deskripsi'),
+        // ];
 
-        Location::create($simpan);
+        // Location::create($simpan);
 
-        return redirect()->route('location.index')->with('success', 'Lokasi berhasil ditambahkan');
+        // return redirect()->route('location.index')->with('success', 'Lokasi berhasil ditambahkan');
     }
 
     public function show($param)
