@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 use App\Models\{Item, Location};
 
@@ -41,6 +42,15 @@ class ItemController extends Controller
             'status' => $request->input('status'),
             'desc' => $request->input('deskripsi'),
         ];
+
+        if($request->hasFile('gambarBarang')){
+            $gambar = $request->file('gambarBarang');
+            $path = 'public/images/items';
+            $nama = 'item_' . Carbon::now('asia/jakarta')->format('Ymdhis') . random_int(000,999) . '.' . $gambar->getClientOriginalExtension();
+            $simpan['image'] = $nama;
+        }
+
+        return $simpan;
 
         // Location::create($simpan);
 
