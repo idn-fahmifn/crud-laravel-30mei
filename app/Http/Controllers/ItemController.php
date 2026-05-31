@@ -113,9 +113,15 @@ class ItemController extends Controller
 
     public function delete($param)
     {
-        $locations = Location::where('uuid', $param)->firstOrFail();
-        $locations->delete();
+        $item = Item::where('uuid', $param)->firstOrFail();
+        $path_lama = 'public/images/items/'.$data->image;
 
-        return redirect()->route('location.index')->with('success', 'Lokasi Berhasil dihapus');
+        if ($item->image && Storage::exists($path_lama)) {
+            Storage::delete($path_lama);
+        }
+        
+        $item->delete();
+
+        return redirect()->route('item.index')->with('success', 'Barang Berhasil dihapus');
     }
 }
