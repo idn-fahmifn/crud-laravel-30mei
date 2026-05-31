@@ -63,6 +63,8 @@
                             <td class="px-8 py-6 text-left"> {{ $location->room_name }} </td>
 
                         </tr>
+
+
                         <tr class="text-slate-600 dark:text-slate-300"">
 
                             <th class="px-8 py-6 text-left"> Ukuran </th>
@@ -77,6 +79,7 @@
                                 {{ $location->isAvailable == true ? 'tersedia' : 'tidak tersedia / full' }}
                             </td>
                         </tr>
+
 
                         <tr class="text-slate-600 dark:text-slate-300"">
 
@@ -107,10 +110,11 @@
 
             <form action="{{ route('location.store') }}" method="post">
                 @csrf
+                @method('put')
                 <div class="mb-4">
                     <x-input-label for="namaLokasi" :value="__('Nama Lokasi')" />
                     <x-text-input id="namaLokasi" class="block mt-1 w-full" type="text" name="namaLokasi"
-                        :value="old('namaLokasi')" required />
+                        :value="old('namaLokasi', $location->room_name)" required />
                     <x-input-error :messages="$errors->get('namaLokasi')" class="mt-2" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2">
@@ -121,7 +125,7 @@
                             @foreach (['small', 'medium', 'large'] as $size)
                                 <label class="flex item-center gap-2">
                                     <input type="radio" name="ukuran" value="{{ $size }}" id="ukuran"
-                                        {{ old('ukuran') == $size ? 'checked' : '' }}
+                                        {{ old('ukuran', $location->size) == $size ? 'checked' : '' }}
                                         class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
 
                                     <span class="capitalize text-slate-200">
@@ -139,7 +143,7 @@
                         <label for="availability" class="flex items-center gap-2 mt-3 cursor-pointer">
                             <input type="hidden" name="availability" value="0">
                             <input type="checkbox" name="availability" id="availability" value="1"
-                                {{ old('availability', 1) ? 'checked' : '' }}
+                                {{ old('availability', $location->isAvailable) ? 'checked' : '' }}
                                 class="w-4 h-4 rounded text-emerald-500 border-slate-300 focus:ring-emerald-500">
 
                             <span class="text-sm text-slate-600 dark:text-slate-300">Tersedia</span>
@@ -152,7 +156,7 @@
                 <div class="mb-4">
                     <x-input-label for="deksripsi" :value="__('Deskripsi Lokasi')" />
                     <textarea name="deskripsi" id="deskripsi"
-                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
+                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"> {{ $location->desc }} </textarea>
                     <x-input-error :messages="$errors->get('deksripsi')" class="mt-2" />
                 </div>
 

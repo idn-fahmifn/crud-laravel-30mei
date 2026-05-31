@@ -44,7 +44,7 @@ class LocationController extends Controller
     public function show($param)
     {
         $locations = Location::where('uuid', $param)->firstOrFail();
-        return view('locations.index', [
+        return view('locations.show', [
             'location' => $locations,
         ]);
     }
