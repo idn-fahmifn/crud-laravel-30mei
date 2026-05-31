@@ -72,12 +72,12 @@
                         @forelse ($items as $item)
                             <tr class="text-slate-600 dark:text-slate-300"">
 
-                                <td class="px-8 py-6"> {{ $item->room_name }} </td>
+                                <td class="px-8 py-6"> {{ $item->item_name }} </td>
                                 <td class="px-8 py-6 font-bold">
-                                    {{ $item->size }}
+                                    {{ $item->location->room_name }}
                                 </td>
-                                <td class="px-8 py-6 {{ $item->isAvailable == true ? 'text-emerald-500' : 'text-rose-500' }}  font-bold">
-                                    {{ $item->isAvailable == true ? 'tersedia' : 'tidak tersedia / full' }}
+                                <td class="px-8 py-6 {{ $item->status == 'good' ? 'text-emerald-500' : ($item->status == 'broke' ? 'text-rose-500' : 'text-yellow-500') }}  font-bold">
+                                    {{ $item->status == 'good' ? 'kondisi baik' : ($item->status == 'broke' ? 'kondisi rusak' : 'sedang maintenance') }}
                                 </td>
                                 <td>
                                     <a href="{{ route('item.show', $item->uuid) }}" class="px-8 py-6 font-bold text-blue-500">Detail</a>
