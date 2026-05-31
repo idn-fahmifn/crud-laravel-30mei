@@ -113,49 +113,78 @@
             <form action="{{ route('item.store') }}" method="post">
                 @csrf
                 <div class="mb-4">
-                    <x-input-label for="namaLokasi" :value="__('Nama Lokasi')" />
-                    <x-text-input id="namaLokasi" class="block mt-1 w-full" type="text" name="namaLokasi"
-                        :value="old('namaLokasi')" required />
+                    <x-input-label for="namaBarang" :value="__('Nama Barang')" />
+                    <x-text-input id="namaBarang" class="block mt-1 w-full" type="text" name="namaBarang"
+                        :value="old('namaBarang')" required />
+                    <x-input-error :messages="$errors->get('namaBarang')" class="mt-2" />
+                </div>
+                  <div class="mb-4">
+                    <x-input-label for="namaLokasi" :value="__('Lokasi Penyimpanan')" />
+                    <select name="namaLokasi" id="namaLokasi" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                            <option value="" disabled>Pilih Lokasi</option>
+                       @forelse ($locations as $location)
+                            <option value="{{$location->id}}" >{{$location->room_name}}</option>
+                       @empty
+                            <option value="" disabled>Lokasi sudah full</option>
+                        @endforelse
+                    </select>
+                   
                     <x-input-error :messages="$errors->get('namaLokasi')" class="mt-2" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2">
                     <div class="mb-4">
-                        <x-input-label for="ukuran" :value="__('Ukuran Lokasi')" />
+                        <x-input-label for="status" :value="__('Status Barang')" />
 
                         <div class="flex gap-4 mt-3">
-                            @foreach (['small', 'medium', 'large'] as $size)
+                            @foreach (['good', 'broke', 'maintenance'] as $status)
                                 <label class="flex item-center gap-2">
-                                    <input type="radio" name="ukuran" value="{{ $size }}" id="ukuran"
-                                        {{ old('ukuran') == $size ? 'checked' : '' }}
+                                    <input type="radio" name="status" value="{{ $status }}" id="status"
+                                        {{ old('status') == $status ? 'checked' : '' }}
                                         class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
 
                                     <span class="capitalize text-slate-200">
-                                        {{ $size }}
+                                        {{ $status }}
                                     </span>
                                 </label>
                             @endforeach
                         </div>
 
-                        <x-input-error :messages="$errors->get('ukuran')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('status')" class="mt-2" />
                     </div>
 
                     <div class="mb-4">
-                        <x-input-label for="availability" :value="__('Ruangan Tersedia')" />
-                        <label for="availability" class="flex items-center gap-2 mt-3 cursor-pointer">
-                            <input type="hidden" name="availability" value="0">
-                            <input type="checkbox" name="availability" id="availability" value="1"
-                                {{ old('availability', 1) ? 'checked' : '' }}
-                                class="w-4 h-4 rounded text-emerald-500 border-slate-300 focus:ring-emerald-500">
+                        <x-input-label for="category" :value="__('Category Barang')" />
 
-                            <span class="text-sm text-slate-600 dark:text-slate-300">Tersedia</span>
-                        </label>
-                        <x-input-error :messages="$errors->get('availability')" class="mt-2" />
+                        <div class="grid grid-cols-2 mt-2">
+                            @foreach (['makanan', 'elektronik', 'atk', 'logistik', 'lainnya'] as $category)
+                                <label class="flex item-center gap-2">
+                                    <input type="radio" name="category" value="{{ $category }}" id="category"
+                                        {{ old('category') == $category ? 'checked' : '' }}
+                                        class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
+
+                                    <span class="capitalize text-slate-200">
+                                        {{ $category }}
+                                    </span>
+                                </label>
+                            @endforeach
+                        </div>
+
+                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
                     </div>
+
+                    
+                </div>
+
+                <div class="mb-4">
+                    <x-input-label for="gambarBarang" :value="__('Gambar Barang')" />
+                    <x-text-input id="gambarBarang" class="block mt-1 w-full py-4 px-6 border" type="file" name="gambarBarang"
+                        :value="old('gambarBarang')" required />
+                    <x-input-error :messages="$errors->get('gambarBarang')" class="mt-2" />
                 </div>
 
 
                 <div class="mb-4">
-                    <x-input-label for="deksripsi" :value="__('Deskripsi Lokasi')" />
+                    <x-input-label for="deksripsi" :value="__('Deskripsi barang')" />
                     <textarea name="deskripsi" id="deskripsi"
                         class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
                     <x-input-error :messages="$errors->get('deksripsi')" class="mt-2" />
