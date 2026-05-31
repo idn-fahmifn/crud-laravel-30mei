@@ -7,11 +7,11 @@
             <div>
 
                 <h2 class="font-black text-2xl text-slate-800 dark:text-white">
-                    Data Lokasi
+                    Data Barang
                 </h2>
 
                 <p class="text-sm text-slate-400 mt-1">
-                    Management lokasi inventory
+                    Management barang inventaris
                 </p>
 
             </div>
@@ -19,7 +19,7 @@
             <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-location')"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">
 
-                + Tambah Lokasi
+                + Tambah Barang
 
             </button>
 
@@ -58,8 +58,8 @@
 
                         <tr class="text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-200">
 
-                            <th class="px-8 py-5 text-left">Nama Lokasi</th>
-                            <th class="px-8 py-5 text-left">Ukuran</th>
+                            <th class="px-8 py-5 text-left">Nama Barang</th>
+                            <th class="px-8 py-5 text-left">Lokasi Penyimpanan</th>
                             <th class="px-8 py-5 text-left">Status</th>
                             <th class="px-8 py-5 text-left">Pilihan</th>
 
@@ -69,23 +69,23 @@
 
                     <tbody>
 
-                        @forelse ($locations as $location)
+                        @forelse ($items as $item)
                             <tr class="text-slate-600 dark:text-slate-300"">
 
-                                <td class="px-8 py-6"> {{ $location->room_name }} </td>
+                                <td class="px-8 py-6"> {{ $item->room_name }} </td>
                                 <td class="px-8 py-6 font-bold">
-                                    {{ $location->size }}
+                                    {{ $item->size }}
                                 </td>
-                                <td class="px-8 py-6 {{ $location->isAvailable == true ? 'text-emerald-500' : 'text-rose-500' }}  font-bold">
-                                    {{ $location->isAvailable == true ? 'tersedia' : 'tidak tersedia / full' }}
+                                <td class="px-8 py-6 {{ $item->isAvailable == true ? 'text-emerald-500' : 'text-rose-500' }}  font-bold">
+                                    {{ $item->isAvailable == true ? 'tersedia' : 'tidak tersedia / full' }}
                                 </td>
                                 <td>
-                                    <a href="{{ route('location.show', $location->uuid) }}" class="px-8 py-6 font-bold text-blue-500">Detail</a>
+                                    <a href="{{ route('item.show', $item->uuid) }}" class="px-8 py-6 font-bold text-blue-500">Detail</a>
                                 </td>
                             </tr>
                         @empty
                         <tr class="text-slate-600 dark:text-slate-300">
-                            <td colspan="4" class="px-8 py-6">Lokasi tidak tersedia</td>
+                            <td colspan="4" class="px-8 py-6 text-center">Barang tidak tersedia</td>
                         </tr>
                         @endforelse
 
@@ -107,10 +107,10 @@
         <div class="p-8">
 
             <h2 class="text-2xl dark:text-slate-200 font-black mb-6">
-                Tambah Lokasi
+                Tambah barang
             </h2>
 
-            <form action="{{ route('location.store') }}" method="post">
+            <form action="{{ route('item.store') }}" method="post">
                 @csrf
                 <div class="mb-4">
                     <x-input-label for="namaLokasi" :value="__('Nama Lokasi')" />
