@@ -45,74 +45,80 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             @if (session('success'))
-                {{-- ALERT --}}
-                <div x-data="{ show: true }" x-show="show"
-                    class="mb-6 flex items-center justify-between bg-blue-100 border border-blue-300 text-blue-700 px-6 py-4 rounded-2xl">
+            {{-- ALERT --}}
+            <div x-data="{ show: true }" x-show="show"
+                class="mb-6 flex items-center justify-between bg-blue-100 border border-blue-300 text-blue-700 px-6 py-4 rounded-2xl">
 
-                    <span class="font-semibold">
-                        {{ session('success') }}
-                    </span>
+                <span class="font-semibold">
+                    {{ session('success') }}
+                </span>
 
-                    <button @click="show = false">
-                        ✕
-                    </button>
+                <button @click="show = false">
+                    ✕
+                </button>
+
+            </div>
+            @endif
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white dark:bg-slate-700 rounded-md overflow-hidden">
+
+                    <table class="w-full">
+
+                        <tbody>
+
+
+                            <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class=" px-8 py-6 text-left"> Nama Barang </th>
+                                <td class="px-8 py-6 text-left"> {{ $item->item_name }} </td>
+
+                            </tr>
+
+                            <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class=" px-8 py-6 text-left"> Penyimpanan </th>
+                                <td class="px-8 py-6 text-left"> {{ $item->location->room_name }} </td>
+
+                            </tr>
+
+
+                            <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class=" px-8 py-6 text-left"> Kategori </th>
+                                <td class="px-8 py-6 text-left capitalize"> {{ $item->category }} </td>
+                            </tr>
+
+                            <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class=" px-8 py-6 text-left"> Status </th>
+                                <td
+                                    class="px-8 py-6 {{ $item->status == 'good' ? 'text-emerald-500' : ($item->status == 'broke' ? 'text-rose-500' : 'text-yellow-500') }}  font-bold">
+                                    {{ $item->status == 'good' ? 'kondisi baik' : ($item->status == 'broke' ? 'kondisi rusak' : 'sedang maintenance') }}
+                                </td>
+                            </tr>
+
+
+                            <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class=" px-8 py-6 text-left"> Deskripsi </th>
+                                <td class="px-8 py-6 text-left"> {{ $item->desc }} </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
 
                 </div>
-            @endif
+                <div class="bg-white dark:bg-slate-700 rounded-md overflow-hidden p-4">
+                    <img src="{{asset('storage/images/items/' . $item->image)}}" class="rounded-md" alt="" class="img-fluid">
+                </div>
+            </div>
 
 
 
             {{-- TABLE --}}
-            <div class="bg-white dark:bg-slate-700 rounded-md overflow-hidden">
 
-                <table class="w-full">
-
-                    <tbody>
-
-
-                        <tr class="text-slate-600 dark:text-slate-300"">
-
-                            <th class="px-8 py-6 text-left"> Nama Barang </th>
-                            <td class="px-8 py-6 text-left"> {{ $item->item_name }} </td>
-
-                        </tr>
-
-                        <tr class="text-slate-600 dark:text-slate-300"">
-
-                            <th class="px-8 py-6 text-left"> Penyimpanan </th>
-                            <td class="px-8 py-6 text-left"> {{ $item->location->room_name }} </td>
-
-                        </tr>
-
-
-                        <tr class="text-slate-600 dark:text-slate-300"">
-
-                            <th class="px-8 py-6 text-left"> Kategori </th>
-                            <td class="px-8 py-6 text-left capitalize"> {{ $item->category }} </td>
-                        </tr>
-
-                        <tr class="text-slate-600 dark:text-slate-300"">
-
-                            <th class="px-8 py-6 text-left"> Status </th>
-                            <td class="px-8 py-6 {{ $item->status == 'good' ? 'text-emerald-500' : ($item->status == 'broke' ? 'text-rose-500' : 'text-yellow-500') }}  font-bold">
-                                {{ $item->status == 'good' ? 'kondisi baik' : ($item->status == 'broke' ? 'kondisi rusak' : 'sedang maintenance') }}
-                            </td>
-                        </tr>
-
-
-                        <tr class="text-slate-600 dark:text-slate-300"">
-
-                            <th class="px-8 py-6 text-left"> Deskripsi </th>
-                            <td class="px-8 py-6 text-left"> {{ $item->desc }} </td>
-                        </tr>
-
-
-
-                    </tbody>
-
-                </table>
-
-            </div>
 
         </div>
 
@@ -142,15 +148,15 @@
 
                         <div class="flex gap-4 mt-3">
                             @foreach (['small', 'medium', 'large'] as $size)
-                                <label class="flex item-center gap-2">
-                                    <input type="radio" name="ukuran" value="{{ $size }}" id="ukuran"
-                                        {{ old('ukuran', $item->size) == $size ? 'checked' : '' }}
-                                        class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
+                            <label class="flex item-center gap-2">
+                                <input type="radio" name="ukuran" value="{{ $size }}" id="ukuran"
+                                    {{ old('ukuran', $item->size) == $size ? 'checked' : '' }}
+                                    class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
 
-                                    <span class="capitalize text-slate-200">
-                                        {{ $size }}
-                                    </span>
-                                </label>
+                                <span class="capitalize text-slate-200">
+                                    {{ $size }}
+                                </span>
+                            </label>
                             @endforeach
                         </div>
 
