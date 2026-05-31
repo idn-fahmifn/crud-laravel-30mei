@@ -107,7 +107,7 @@ class ItemController extends Controller
 
         $data->update($simpan);
 
-        return redirect()->route('item.index')->with('success', 'Barang berhasil ditambahkan');
+        return redirect()->route('item.show', $data->uuid)->with('success', 'Barang berhasil diedit');
 
     }
 
