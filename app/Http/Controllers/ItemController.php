@@ -48,13 +48,12 @@ class ItemController extends Controller
             $path = 'public/images/items';
             $nama = 'item_' . Carbon::now('asia/jakarta')->format('Ymdhis') . random_int(000,999) . '.' . $gambar->getClientOriginalExtension();
             $simpan['image'] = $nama;
+            $gambar->storeAs($path, $nama);
         }
 
-        return $simpan;
+        Item::create($simpan);
 
-        // Location::create($simpan);
-
-        // return redirect()->route('location.index')->with('success', 'Lokasi berhasil ditambahkan');
+        return redirect()->route('item.index')->with('success', 'Barang berhasil ditambahkan');
     }
 
     public function show($param)
