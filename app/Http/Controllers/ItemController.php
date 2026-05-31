@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-use App\Models\Location;
+use App\Models\{Item, Location};
 
 class ItemController extends Controller
 {
     public function index()
     {
-        $locations = Location::paginate(10);
+        $locations = Location::where('isAvailable', true)->get();
+        $items = Item::paginate(10);
 
-        return view('locations.index', [
+        return view('items.index', [
+            'items' => $items,
             'locations' => $locations,
         ]);
     }
