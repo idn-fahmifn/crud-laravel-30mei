@@ -76,7 +76,7 @@ class ItemController extends Controller
             'namaLokasi' => ['required', 'exists:locations,id'],
             'status' => ['required', 'in:good,broke,maintenance'],
             'category' => ['required', 'in:makanan,elektronik,atk,logistik,lainnya'],
-            'gambarBarang' => ['required', 'file', 'mimes:png,jpg,jpeg,svg,webp'],
+            'gambarBarang' => ['file', 'mimes:png,jpg,jpeg,svg,webp'],
             'deskripsi' => ['required'],
         ]);
 
