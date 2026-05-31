@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -59,36 +60,55 @@ class ItemController extends Controller
     {
         $items = Item::where('uuid', $param)->firstOrFail();
         $locations = Location::where('isAvailable', true)->get();
+
         return view('items.show', [
             'item' => $items,
-            'locations' => $locations
+            'locations' => $locations,
         ]);
     }
 
     public function update(Request $request, $param)
     {
 
-        $data = Location::where('uuid', $param)->firstOrFail();
-
+        $data = Item::where('uuid', $param)->firstOrFail();
         $request->validate([
-            'namaLokasi' => ['required', 'string', 'min:5', 'max:30'],
-            'ukuran' => ['required', 'in:small,medium,large'],
-            'availability' => ['required', 'in:1,0'],
+            'namaBarang' => ['required', 'string', 'min:5', 'max:30'],
+            'namaLokasi' => ['required', 'exists:locations,id'],
+            'status' => ['required', 'in:good,broke,maintenance'],
+            'category' => ['required', 'in:makanan,elektronik,atk,logistik,lainnya'],
+            'gambarBarang' => ['required', 'file', 'mimes:png,jpg,jpeg,svg,webp'],
             'deskripsi' => ['required'],
         ]);
 
         // array untuk menyimpan data ke model item
         $simpan = [
             'uuid' => Str::uuid(),
-            'room_name' => $request->input('namaLokasi'),
-            'size' => $request->input('ukuran'),
-            'isAvailable' => $request->input('availability'),
+            'item_name' => $request->input('namaBarang'),
+            'location_id' => $request->input('namaLokasi'),
+            'category' => $request->input('category'),
+            'status' => $request->input('status'),
             'desc' => $request->input('deskripsi'),
         ];
 
+        if ($request->hasFile('gambarBarang')) {
+
+            $path_lama = 'public/images/items/'.$data->image;
+
+            if ($data->image && Storage::exists($path_lama)) {
+                Storage::delete($path_lama);
+            }
+
+            $gambar = $request->file('gambarBarang');
+            $path = 'public/images/items';
+            $nama = 'item_'.Carbon::now('asia/jakarta')->format('Ymdhis').random_int(000, 999).'.'.$gambar->getClientOriginalExtension();
+            $simpan['image'] = $nama;
+            $gambar->storeAs($path, $nama);
+        }
+
         $data->update($simpan);
 
-        return redirect()->route('location.show', $data->uuid)->with('success', 'Lokasi berhasil diubah');
+        return redirect()->route('item.index')->with('success', 'Barang berhasil ditambahkan');
+
     }
 
     public function delete($param)

@@ -216,7 +216,7 @@
 
                 <div class="mb-4">
                     <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">Tambah
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">Edit
                         Barang</button>
                 </div>
 
