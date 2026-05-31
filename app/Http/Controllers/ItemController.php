@@ -114,7 +114,7 @@ class ItemController extends Controller
     public function delete($param)
     {
         $item = Item::where('uuid', $param)->firstOrFail();
-        $path_lama = 'public/images/items/'.$data->image;
+        $path_lama = 'public/images/items/'.$item->image;
 
         if ($item->image && Storage::exists($path_lama)) {
             Storage::delete($path_lama);
