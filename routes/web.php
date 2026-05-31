@@ -18,6 +18,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/locations', [LocationController::class, 'index'])->name('location.index');
     Route::post('/locations', [LocationController::class, 'store'])->name('location.store');
     Route::get('/locations/detail/{param}', [LocationController::class, 'show'])->name('location.show');
+    Route::put('/locations/update/{param}', [LocationController::class, 'update'])->name('location.update');
+    Route::delete('/locations/delete/{param}', [LocationController::class, 'delete'])->name('location.delete');
 
     
 

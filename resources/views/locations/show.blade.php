@@ -16,12 +16,25 @@
 
             </div>
 
-            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-location')"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-location')"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold btn-sm text-sm">
+                    Edit Lokasi
+                </button>
 
-                Edit Lokasi
+                <form action="{{ route('location.delete', $location->uuid) }}" method="post">
+                    @csrf
+                    @method('delete')
+                    <button type="submit" onclick="return confirm('Yakin mau dihapus?')"
+                        class="bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-2xl font-bold btn-sm text-sm">
+                        Hapus Lokasi
+                    </button>
+                </form>
 
-            </button>
+
+            </div>
+
+
 
         </div>
 
@@ -105,10 +118,10 @@
         <div class="p-8">
 
             <h2 class="text-2xl dark:text-slate-200 font-black mb-6">
-                Tambah Lokasi
+                Edit Lokasi
             </h2>
 
-            <form action="{{ route('location.store') }}" method="post">
+            <form action="{{ route('location.update', $location->uuid) }}" method="post">
                 @csrf
                 @method('put')
                 <div class="mb-4">
@@ -162,7 +175,7 @@
 
                 <div class="mb-4">
                     <button type="submit"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">Tambah
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">Edit
                         Lokasi</button>
                 </div>
 
