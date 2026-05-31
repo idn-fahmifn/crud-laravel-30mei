@@ -31,19 +31,23 @@
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            {{-- ALERT --}}
-            <div x-data="{ show: true }" x-show="show"
-                class="mb-6 flex items-center justify-between bg-blue-100 border border-blue-300 text-blue-700 px-6 py-4 rounded-2xl">
+            @if (session('success'))
+                {{-- ALERT --}}
+                <div x-data="{ show: true }" x-show="show"
+                    class="mb-6 flex items-center justify-between bg-blue-100 border border-blue-300 text-blue-700 px-6 py-4 rounded-2xl">
 
-                <span class="font-semibold">
-                    Lokasi berhasil dibuat
-                </span>
+                    <span class="font-semibold">
+                        {{ session('success') }}
+                    </span>
 
-                <button @click="show = false">
-                    ✕
-                </button>
+                    <button @click="show = false">
+                        ✕
+                    </button>
 
-            </div>
+                </div>
+            @endif
+
+
 
             {{-- TABLE --}}
             <div class="bg-white dark:bg-slate-700 rounded-md overflow-hidden">
@@ -65,18 +69,24 @@
 
                     <tbody>
 
-                        <tr class="text-slate-600 dark:text-slate-300"">
+                        @forelse ($locations as $location)
+                            <tr class="text-slate-600 dark:text-slate-300"">
 
-                            <td class="px-8 py-6">Gedung Utama</td>
-                            <td class="px-8 py-6 font-bold">large</td>
-                            <td class="px-8 py-6 text-emerald-500 font-bold">
-                                Available
-                            </td>
-                            <td>
-                                <a href="" class="px-8 py-6 font-bold text-blue-500">Detail</a>
-                            </td>
+                                <td class="px-8 py-6"> {{ $location->room_name }} </td>
+                                <td class="px-8 py-6 font-bold">
+                                    {{ $location->size }}
+                                </td>
+                                <td class="px-8 py-6 {{ $location->isAvailable == true ? 'text-emerald-500' : 'text-rose-500' }}  font-bold">
+                                    {{ $location->isAvailable == true ? 'tersedia' : 'tidak tersedia / full' }}
+                                </td>
+                                <td>
+                                    <a href="" class="px-8 py-6 font-bold text-blue-500">Detail</a>
+                                </td>
+                            </tr>
+                        @empty
+                        @endforelse
 
-                        </tr>
+
 
                     </tbody>
 
@@ -134,7 +144,7 @@
                                 {{ old('availability', 1) ? 'checked' : '' }}
                                 class="w-4 h-4 rounded text-emerald-500 border-slate-300 focus:ring-emerald-500">
 
-                                <span class="text-sm text-slate-600 dark:text-slate-300">Tersedia</span>
+                            <span class="text-sm text-slate-600 dark:text-slate-300">Tersedia</span>
                         </label>
                         <x-input-error :messages="$errors->get('availability')" class="mt-2" />
                     </div>
@@ -143,12 +153,15 @@
 
                 <div class="mb-4">
                     <x-input-label for="deksripsi" :value="__('Deskripsi Lokasi')" />
-                    <textarea name="deskripsi" id="deskripsi" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
+                    <textarea name="deskripsi" id="deskripsi"
+                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"></textarea>
                     <x-input-error :messages="$errors->get('deksripsi')" class="mt-2" />
                 </div>
 
                 <div class="mb-4">
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">Tambah Lokasi</button>
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">Tambah
+                        Lokasi</button>
                 </div>
 
 

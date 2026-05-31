@@ -13,7 +13,7 @@ class LocationController extends Controller
     {
         $locations = Location::paginate(10);
         return view('locations.index', [
-            'location' => $locations
+            'locations' => $locations
         ]);
     }
 
@@ -33,9 +33,10 @@ class LocationController extends Controller
             'room_name' => $request->input('namaLokasi'),
             'size' => $request->input('ukuran'),
             'isAvailable' => $request->input('availability'),
-            'desc' => $request->input('dekripsi'),
+            'desc' => $request->input('deskripsi'),
         ];
 
-        return $simpan;
+        Location::create($simpan);
+        return redirect()->route('location.index')->with('success', 'Lokasi berhasil ditambahkan');
     }
 }
