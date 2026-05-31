@@ -61,7 +61,7 @@ class ItemController extends Controller
         $locations = Location::where('isAvailable', true)->get();
         return view('items.show', [
             'item' => $items,
-            'location' => $locations
+            'locations' => $locations
         ]);
     }
 
