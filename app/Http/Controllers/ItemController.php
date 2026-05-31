@@ -58,9 +58,9 @@ class ItemController extends Controller
 
     public function show($param)
     {
-        $locations = Location::where('uuid', $param)->firstOrFail();
-        return view('locations.show', [
-            'location' => $locations,
+        $items = Item::where('uuid', $param)->firstOrFail();
+        return view('items.show', [
+            'item' => $items,
         ]);
     }
 

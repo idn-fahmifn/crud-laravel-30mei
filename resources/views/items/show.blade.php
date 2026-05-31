@@ -7,11 +7,11 @@
             <div>
 
                 <h2 class="font-black text-2xl text-slate-800 dark:text-white">
-                    Detail Lokasi
+                    Detail Barang
                 </h2>
 
                 <p class="text-sm text-slate-400 mt-1">
-                    {{ $location->room_name }}
+                    {{ $item->item_name }}
                 </p>
 
             </div>
@@ -19,15 +19,15 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-location')"
                     class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold btn-sm text-sm">
-                    Edit Lokasi
+                    Edit Barang
                 </button>
 
-                <form action="{{ route('location.delete', $location->uuid) }}" method="post">
+                <form action="{{ route('item.delete', $item->uuid) }}" method="post">
                     @csrf
                     @method('delete')
                     <button type="submit" onclick="return confirm('Yakin mau dihapus?')"
                         class="bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-2xl font-bold btn-sm text-sm">
-                        Hapus Lokasi
+                        Hapus Barang
                     </button>
                 </form>
 
@@ -72,24 +72,30 @@
 
                         <tr class="text-slate-600 dark:text-slate-300"">
 
-                            <th class="px-8 py-6 text-left"> Nama Ruangan </th>
-                            <td class="px-8 py-6 text-left"> {{ $location->room_name }} </td>
+                            <th class="px-8 py-6 text-left"> Nama Barang </th>
+                            <td class="px-8 py-6 text-left"> {{ $item->item_name }} </td>
+
+                        </tr>
+
+                        <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class="px-8 py-6 text-left"> Penyimpanan </th>
+                            <td class="px-8 py-6 text-left"> {{ $item->location->room_name }} </td>
 
                         </tr>
 
 
                         <tr class="text-slate-600 dark:text-slate-300"">
 
-                            <th class="px-8 py-6 text-left"> Ukuran </th>
-                            <td class="px-8 py-6 text-left"> {{ $location->size }} </td>
+                            <th class="px-8 py-6 text-left"> Kategori </th>
+                            <td class="px-8 py-6 text-left capitalize"> {{ $item->category }} </td>
                         </tr>
 
                         <tr class="text-slate-600 dark:text-slate-300"">
 
-                            <th class="px-8 py-6 text-left"> Availability </th>
-                            <td
-                                class="px-8 py-6 text-left {{ $location->isAvailable == true ? 'text-emerald-500' : 'text-rose-500' }}  font-bold">
-                                {{ $location->isAvailable == true ? 'tersedia' : 'tidak tersedia / full' }}
+                            <th class="px-8 py-6 text-left"> Status </th>
+                            <td class="px-8 py-6 {{ $item->status == 'good' ? 'text-emerald-500' : ($item->status == 'broke' ? 'text-rose-500' : 'text-yellow-500') }}  font-bold">
+                                {{ $item->status == 'good' ? 'kondisi baik' : ($item->status == 'broke' ? 'kondisi rusak' : 'sedang maintenance') }}
                             </td>
                         </tr>
 
@@ -97,7 +103,7 @@
                         <tr class="text-slate-600 dark:text-slate-300"">
 
                             <th class="px-8 py-6 text-left"> Deskripsi </th>
-                            <td class="px-8 py-6 text-left"> {{ $location->desc }} </td>
+                            <td class="px-8 py-6 text-left"> {{ $item->desc }} </td>
                         </tr>
 
 
@@ -121,13 +127,13 @@
                 Edit Lokasi
             </h2>
 
-            <form action="{{ route('location.update', $location->uuid) }}" method="post">
+            <form action="{{ route('location.update', $item->uuid) }}" method="post">
                 @csrf
                 @method('put')
                 <div class="mb-4">
                     <x-input-label for="namaLokasi" :value="__('Nama Lokasi')" />
                     <x-text-input id="namaLokasi" class="block mt-1 w-full" type="text" name="namaLokasi"
-                        :value="old('namaLokasi', $location->room_name)" required />
+                        :value="old('namaLokasi', $item->room_name)" required />
                     <x-input-error :messages="$errors->get('namaLokasi')" class="mt-2" />
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2">
@@ -138,7 +144,7 @@
                             @foreach (['small', 'medium', 'large'] as $size)
                                 <label class="flex item-center gap-2">
                                     <input type="radio" name="ukuran" value="{{ $size }}" id="ukuran"
-                                        {{ old('ukuran', $location->size) == $size ? 'checked' : '' }}
+                                        {{ old('ukuran', $item->size) == $size ? 'checked' : '' }}
                                         class="border-slate-300 text-indigo-600 focus:ring-indigo-500">
 
                                     <span class="capitalize text-slate-200">
@@ -156,7 +162,7 @@
                         <label for="availability" class="flex items-center gap-2 mt-3 cursor-pointer">
                             <input type="hidden" name="availability" value="0">
                             <input type="checkbox" name="availability" id="availability" value="1"
-                                {{ old('availability', $location->isAvailable) ? 'checked' : '' }}
+                                {{ old('availability', $item->isAvailable) ? 'checked' : '' }}
                                 class="w-4 h-4 rounded text-emerald-500 border-slate-300 focus:ring-emerald-500">
 
                             <span class="text-sm text-slate-600 dark:text-slate-300">Tersedia</span>
@@ -169,7 +175,7 @@
                 <div class="mb-4">
                     <x-input-label for="deksripsi" :value="__('Deskripsi Lokasi')" />
                     <textarea name="deskripsi" id="deskripsi"
-                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"> {{ $location->desc }} </textarea>
+                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"> {{ $item->desc }} </textarea>
                     <x-input-error :messages="$errors->get('deksripsi')" class="mt-2" />
                 </div>
 
