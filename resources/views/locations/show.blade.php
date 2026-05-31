@@ -7,11 +7,11 @@
             <div>
 
                 <h2 class="font-black text-2xl text-slate-800 dark:text-white">
-                    Data Lokasi
+                    Detail Lokasi
                 </h2>
 
                 <p class="text-sm text-slate-400 mt-1">
-                    Management lokasi inventory
+                    {{ $location->room_name }}
                 </p>
 
             </div>
@@ -19,7 +19,7 @@
             <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-location')"
                 class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-bold text-sm">
 
-                + Tambah Lokasi
+                Edit Lokasi
 
             </button>
 
@@ -54,40 +54,35 @@
 
                 <table class="w-full">
 
-                    <thead class="bg-slate-200 dark:bg-slate-800">
-
-                        <tr class="text-xs uppercase tracking-[0.2em] text-slate-600 dark:text-slate-200">
-
-                            <th class="px-8 py-5 text-left">Nama Lokasi</th>
-                            <th class="px-8 py-5 text-left">Ukuran</th>
-                            <th class="px-8 py-5 text-left">Status</th>
-                            <th class="px-8 py-5 text-left">Pilihan</th>
-
-                        </tr>
-
-                    </thead>
-
                     <tbody>
 
-                        @forelse ($locations as $location)
-                            <tr class="text-slate-600 dark:text-slate-300"">
 
-                                <td class="px-8 py-6"> {{ $location->room_name }} </td>
-                                <td class="px-8 py-6 font-bold">
-                                    {{ $location->size }}
-                                </td>
-                                <td class="px-8 py-6 {{ $location->isAvailable == true ? 'text-emerald-500' : 'text-rose-500' }}  font-bold">
-                                    {{ $location->isAvailable == true ? 'tersedia' : 'tidak tersedia / full' }}
-                                </td>
-                                <td>
-                                    <a href="{{ route('location.show', $location->uuid) }}" class="px-8 py-6 font-bold text-blue-500">Detail</a>
-                                </td>
-                            </tr>
-                        @empty
-                        <tr class="text-slate-600 dark:text-slate-300">
-                            <td colspan="4" class="px-8 py-6">Lokasi tidak tersedia</td>
+                        <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class="px-8 py-6 text-left"> Nama Ruangan </th>
+                            <td class="px-8 py-6 text-left"> {{ $location->room_name }} </td>
+
                         </tr>
-                        @endforelse
+                        <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class="px-8 py-6 text-left"> Ukuran </th>
+                            <td class="px-8 py-6 text-left"> {{ $location->size }} </td>
+                        </tr>
+
+                        <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class="px-8 py-6 text-left"> Availability </th>
+                            <td
+                                class="px-8 py-6 text-left {{ $location->isAvailable == true ? 'text-emerald-500' : 'text-rose-500' }}  font-bold">
+                                {{ $location->isAvailable == true ? 'tersedia' : 'tidak tersedia / full' }}
+                            </td>
+                        </tr>
+
+                        <tr class="text-slate-600 dark:text-slate-300"">
+
+                            <th class="px-8 py-6 text-left"> Deskripsi </th>
+                            <td class="px-8 py-6 text-left"> {{ $location->desc }} </td>
+                        </tr>
 
 
 

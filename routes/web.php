@@ -17,6 +17,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // route khusus untuk location
     Route::get('/locations', [LocationController::class, 'index'])->name('location.index');
     Route::post('/locations', [LocationController::class, 'store'])->name('location.store');
+    Route::get('/locations/detail/{param}', [LocationController::class, 'show'])->name('location.show');
+
     
 
 });
